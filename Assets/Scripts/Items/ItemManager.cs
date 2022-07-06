@@ -16,9 +16,9 @@ public enum ItemType{
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
-
+    public GameObject bombPrefab;
+    public GameObject arrowPrefab;
     Item[] usedItems = new Item[2];
-
     void Awake(){
         if (instance == null){
             instance = this;
@@ -39,7 +39,7 @@ public class ItemManager : MonoBehaviour
             if (cooldown <= 0){
                 continue;
             }
-            usedItems[i].SetCooldown(cooldown - 0.0165f);
+            usedItems[i].SetCooldown(cooldown - 0.0125f);
         }
     }
 
