@@ -704,5 +704,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dfc7d4b8106416458c1d026f65d9316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 0}
+  bombPrefab: {fileID: 2658501057311045068, guid: c6ff057e7575bbb4581d156f9936a9b6, type: 3}
   arrowPrefab: {fileID: 0}
