@@ -51,6 +51,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space)){
             Debug.Log("Attacking");
         }
+        if (Input.GetKeyDown(KeyCode.Alpha1)){
+            //Debug.Log("Item 0: " + ItemManager.instance.GetUsedItem(0));
+            ItemManager.instance.UseItem(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2)){
+            //Debug.Log("Item 1: " + ItemManager.instance.GetUsedItem(1));
+            ItemManager.instance.UseItem(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3)){
+            //Debug.Log("Item 2: " + ItemManager.instance.GetUsedItem(2));
+            ItemManager.instance.UseItem(2);
+        }
         UpdateAnimationsAndMove();
     }
 
