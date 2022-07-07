@@ -5,11 +5,6 @@ using System.Linq;
 
 public class BombItem : Item
 {
-    public BombItem () {
-        cooldownMax = 30f;
-        cooldown = 0;
-        count = -1;
-    }
     public override void UseItem(){
         if (cooldown > 0 || count == 0){
             Debug.Log("on cooldown or out of items: " + cooldown + " " + count);

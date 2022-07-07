@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class EmptyItem : Item
+public class TorchItem : Item
 {
     
     public override void UseItem(){
-    
+        Debug.Log("Blunt smoked");
     }
     public override string GetString(){
-        return "EmptyItem";
+        return "TorchItem";
     }
 }

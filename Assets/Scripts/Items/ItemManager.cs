@@ -3,22 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public enum ItemType{
-    None = 0,
-    Bomb = 1,
-    Bow,
-    Potion,
-    Dash,
-    Wall,
-}
-
-
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
     public GameObject bombPrefab;
     public GameObject arrowPrefab;
-    Item[] usedItems = new Item[2];
+    [HideInInspector]
+    public ItemDatabase itemDatabase;
+    
+    public Item[] usedItems = new Item[2];
+    public List<ItemHudIcon> hudIcons = new List<ItemHudIcon>();
     void Awake(){
         if (instance == null){
             instance = this;
@@ -29,13 +23,16 @@ public class ItemManager : MonoBehaviour
         }
     }
     void Start(){
-        //Test assigning values:
-        usedItems[0] = new BombItem();
-        usedItems[1] = new EmptyItem();
+        itemDatabase = GetComponent<ItemDatabase>();
+        for (int i = 0; i < usedItems.Length; i++){
+            if (usedItems[i] != null){
+                hudIcons[i].ChangeItem(usedItems[i]);
+            }
+        }
     }
     public void Update(){
         for (int i = 0; i < usedItems.Count(); i++){
-            float cooldown = usedItems[i].GetCooldown();
+            float cooldown = GetUsedItem(i).GetCooldown();
             if (cooldown <= 0){
                 continue;
             }
@@ -49,12 +46,18 @@ public class ItemManager : MonoBehaviour
             return;
         }
         for (int i = 0; i < usedItems.Count(); i++){
-            if (usedItems[i].GetString() == item.GetString() && item.GetString() != "Item"){
-                usedItems[i] = new EmptyItem();
+            if (usedItems[i] == null){
+                usedItems[i] = itemDatabase.emptyItem;
+            }
+            if (usedItems[i].GetString() == item.GetString() && item.type != ItemType.Empty){
+                usedItems[i] = itemDatabase.emptyItem;
+                hudIcons[i].itemImage.enabled = false;
                 break;
             }
         }
         usedItems[itemNumber] = item;
+        hudIcons[itemNumber].ChangeItem(item);
+        hudIcons[itemNumber].itemImage.enabled = true;
     }
     public Item GetUsedItem(int itemNumber){
         //Debug.Log("items count: " + usedItems.Count());
@@ -68,7 +71,7 @@ public class ItemManager : MonoBehaviour
         if (itemNumber >= usedItems.Count()){
             return;
         }
-        //Debug.Log("using item " + usedItems[itemNumber].GetString());
+        Debug.Log("using item " + usedItems[itemNumber].type.ToString());
         usedItems[itemNumber].UseItem();
     }
 }
