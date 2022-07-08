@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private float walkSpeed = 12;
     private float sprintSpeed = 24;
     private bool sprinting = false;
+    private bool frozen = false;
     void Awake(){
         if (instance == null){
             instance = this;
@@ -39,7 +40,9 @@ public class PlayerController : MonoBehaviour
         Debug.Log(other.collider.name);
     }
     public void GetPlayerInput(){
-        
+        if (frozen) {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             sprinting = true;
             Debug.Log("Started sprinting");
@@ -62,6 +65,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3)){
             //Debug.Log("Item 2: " + ItemManager.instance.GetUsedItem(2));
             ItemManager.instance.UseItem(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Tab)){
+            ItemManager.instance.ShowMenu();
         }
         UpdateAnimationsAndMove();
     }
@@ -147,5 +153,16 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("MoveY", 0);
             animator.SetFloat("MoveX", 1);
         }
+    }
+
+    //Freeze player control and stop animations
+    public void FreezeControl(){
+        animator.StartPlayback(); //yes this freezes the animations, yes its name is *correct*
+        frozen = true;
+    }
+    //Resume player control and start animations
+     public void UnfreezeControl(){
+        animator.StopPlayback();
+        frozen = false;
     }
 }

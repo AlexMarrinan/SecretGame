@@ -10,6 +10,7 @@ public class ItemManager : MonoBehaviour
     public GameObject arrowPrefab;
     [HideInInspector]
     public ItemDatabase itemDatabase;
+    public ItemMenu itemMenu;
     
     public Item[] usedItems = new Item[2];
     public List<ItemHudIcon> hudIcons = new List<ItemHudIcon>();
@@ -73,5 +74,15 @@ public class ItemManager : MonoBehaviour
         }
         Debug.Log("using item " + usedItems[itemNumber].type.ToString());
         usedItems[itemNumber].UseItem();
+    }
+    public void ShowMenu(){
+        itemMenu.gameObject.SetActive(true);
+        PlayerController.instance.FreezeControl();
+        //Freeze game logic (yes TUNIC you should have done this too :))) 
+    }
+    public void HideMenu(){
+        itemMenu.gameObject.SetActive(false);
+        PlayerController.instance.UnfreezeControl();
+        //Unfreeze game logic
     }
 }
