@@ -47,7 +47,10 @@ public class CameraController : MonoBehaviour
             //Rotate camera left
             if (Input.GetKeyDown(KeyCode.Q)){
                 c.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
-                player.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
+                SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
+                foreach (SpriteRenderer s in sprites){
+                    s.gameObject.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
+                }
                 PlayerController.instance.RotateLeft();
                 //PlayerController.instance.startRotation = player.transform.rotation;
                 cd++;
@@ -55,7 +58,10 @@ public class CameraController : MonoBehaviour
             //Rotate Camera right
             if (Input.GetKeyDown(KeyCode.E)){
                 c.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
-                player.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
+                SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
+                foreach (SpriteRenderer s in sprites){
+                    s.gameObject.transform.Rotate(0f, -90.0f, 0.0f, Space.World);
+                }
                 PlayerController.instance.RotateRight();
                 //PlayerController.instance.startRotation = player.transform.rotation;
                 cd--;
