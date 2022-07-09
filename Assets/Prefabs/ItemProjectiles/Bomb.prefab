@@ -2283,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d4adfd7ffb809842aeab7daaaa2a1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuseTime: 20
+  fuseTime: 60
   explosion: {fileID: 7590855598759550217}
 --- !u!1 &7590855598759550217
 GameObject:

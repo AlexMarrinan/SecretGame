@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BombProjectile : MonoBehaviour
 {
-    public float fuseTime = 20f;
+    public float fuseTime = 60f;
     private float remainingFuse;
     public GameObject explosion;
     public BombProjectile(){
