@@ -77,7 +77,7 @@ public class ItemManager : MonoBehaviour
         if (itemNumber >= usedItems.Count()){
             return;
         }
-        Debug.Log("using item " + usedItems[itemNumber].type.ToString());
+        //Debug.Log("using item " + usedItems[itemNumber].type.ToString());
         usedItems[itemNumber].UseItem();
     }
     public void ShowMenu(){

@@ -733,6 +733,7 @@ GameObject:
   - component: {fileID: 1809502586362224405}
   - component: {fileID: 1809502586362224401}
   - component: {fileID: 1809502586362224407}
+  - component: {fileID: 2838238531678270586}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -765,10 +766,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1809502586362224402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21f3a2a1dcacdc34bbbf708e7f831637, type: 3}
+  m_Script: {fileID: 11500000, guid: 9279083e92a7d094c93b1903882d62fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 1809502585359542922}
+  sprite: {fileID: 0}
 --- !u!136 &1809502586362224401
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -799,6 +800,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2838238531678270586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809502586362224402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697d0249de1656348b74b76ec331cf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 10
+  currentHP: 10
 --- !u!1 &1809502586520074394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,6 +1238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed715081e21d3384b95f94c7bce866d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentScene:
+    m_Handle: 0
 --- !u!1 &3341451708211500231
 GameObject:
   m_ObjectHideFlags: 0
