@@ -15,15 +15,20 @@ public class ItemManager : MonoBehaviour
     public Item[] usedItems = new Item[2];
     public List<ItemHudIcon> hudIcons = new List<ItemHudIcon>();
     void Awake(){
+        //Debug.Log("awake");
         if (instance == null){
             instance = this;
             DontDestroyOnLoad(instance);
+            InitializeItems();
         }
         else{
             Destroy(gameObject);
         }
     }
     void Start(){
+
+    }
+    void InitializeItems(){
         itemDatabase = GetComponent<ItemDatabase>();
         for (int i = 0; i < usedItems.Length; i++){
             if (usedItems[i] != null){

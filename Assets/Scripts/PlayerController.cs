@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
         //sprite.transform.rotation = startRotation;
     }
     private void OnCollisionEnter(Collision other) {
-        Debug.Log(other.collider.name);
+        //Debug.Log(other.collider.name);
     }
     public void GetPlayerInput(){
         if (frozen) {

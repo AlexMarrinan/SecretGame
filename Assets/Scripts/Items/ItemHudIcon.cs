@@ -9,13 +9,16 @@ public class ItemHudIcon : MonoBehaviour
     public Image itemImage;
     public int itemNumber;
     public Item item;
+    void Awake(){
+        DontDestroyOnLoad(this);
+    }
     public void ChangeItem(Item item){
         if (item.type == ItemType.Empty){
             SetImageAlpha(0);
             return;
         }
         SetImageAlpha(1);
-        Debug.Log("Changed item to " + item);
+        //Debug.Log("Changed item to " + item);
         this.item = item;
         itemImage.sprite = item.sprite;
     }

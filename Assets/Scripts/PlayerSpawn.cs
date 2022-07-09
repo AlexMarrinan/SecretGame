@@ -8,4 +8,5 @@ public class PlayerSpawn : MonoBehaviour
 {
     public string spawnName;
     public CameracDirection direction;
+    public GameObject activeObjects;
 }

@@ -13,11 +13,18 @@ public class SceneLoadTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(sceneName);
+            LoadScene();
         }
     }
 
     public void OnEvent(){
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void LoadScene(){
+        if (SceneManager.GetActiveScene().name != sceneName)
+        {
+            GameManager.instance.LoadScene(sceneName, spawnName);
+        }
     }
 }

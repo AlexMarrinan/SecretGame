@@ -7,9 +7,19 @@ using System.Linq;
 public class ItemMenu : MonoBehaviour
 {
     public GameObject menuUI;
+    public static ItemMenu instance;
     public Image hoverImage;
     public List<ItemMenuIcon> icons;
     int selectionIndex;
+    void Awake(){
+        if (instance == null){
+            instance = this;
+            DontDestroyOnLoad(instance.gameObject);
+        }
+        else{
+            Destroy(gameObject);
+        }
+    }
     void Start(){
         selectionIndex = 0;
         icons = GetComponentsInChildren<ItemMenuIcon>().ToList();

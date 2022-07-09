@@ -10,6 +10,9 @@ public class ItemMenuIcon : MonoBehaviour
     public Item item;
     public Image itemImage;
 
+    void Awake(){
+        DontDestroyOnLoad(this);
+    }
     void Start(){
         itemImage.sprite = item.sprite;
     }
