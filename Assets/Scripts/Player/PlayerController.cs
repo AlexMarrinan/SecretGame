@@ -101,11 +101,6 @@ public class PlayerController : MonoBehaviour
     public void MovePlayer(Vector3 direction){
         rb.MovePosition(rb.position + direction);
     }
-    private Vector3 PlayerCameraOffset(){
-        rb.velocity = new Vector3(0, 0, 0);
-        return CameraController.instance.cameraOffset;
-    }
-
     public void RotateRight(){
         float x = animator.GetFloat("MoveX");
         float y = animator.GetFloat("MoveY");

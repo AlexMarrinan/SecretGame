@@ -12,7 +12,6 @@ public enum CameracDirection{
 [RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
-
     public static CameraController instance;
     void Awake(){
         if (instance == null){
@@ -24,24 +23,25 @@ public class CameraController : MonoBehaviour
         }
     }
     const int CAMERADIRECTION_MAX = 3;
-    const int CAMERA_DISTANCE = 30;
+    const int CAMERA_DISTANCE = 20;
     public Camera c;
     public CameracDirection cd;
     public Transform player;
-    public Vector3 cameraOffset;
-
+    private Vector3 orbit;
+    private Vector3 cameraOffset;
+    private bool lockX;
+    private bool lockZ;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         c = GetComponent<Camera>();
         cd = CameracDirection.Infront;
         cameraOffset = new Vector3(0, CAMERA_DISTANCE, -CAMERA_DISTANCE);
+        orbit = player.transform.position;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         if (Input.anyKey){
             
             //TODO: make not horrible !!!
@@ -93,7 +93,19 @@ public class CameraController : MonoBehaviour
                     break;
             }
         }
-
-        transform.position = player.transform.position + cameraOffset;
+        if (!lockX){
+            orbit.x = player.transform.position.x;
+        }
+        if (!lockZ){
+            orbit.z = player.transform.position.z;
+        }
+        
+        transform.position = orbit + cameraOffset;
+    }
+    public void SetXLock(bool newLock){
+        lockX = newLock;
+    }
+    public void SetZLock(bool newLock){
+        lockZ = newLock;
     }
 }

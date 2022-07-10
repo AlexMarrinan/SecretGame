@@ -984,10 +984,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1809502586520074394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcfe50f9a599fe644afeb22b83487a67, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c400ab125016634e968afbe610c5d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  c: {fileID: 0}
+  c: {fileID: 1809502586520074392}
   cd: 0
   player: {fileID: 1809502586362224400}
   cameraOffset: {x: 0, y: 0, z: 0}
