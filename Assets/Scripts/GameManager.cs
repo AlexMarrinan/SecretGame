@@ -32,13 +32,18 @@ public class GameManager : MonoBehaviour
     //Finds the correct spanwpoint when loading a scene,
     //Needs to be in singleton class so it can operate whne scene triggers are loaded/unloaded
     private IEnumerator LoadSceneCoroutine(string sceneName, string spawnName){
-        AsyncOperation loading = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
 
+       
+       AsyncOperation loading = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        
         while (!loading.isDone){
             //Debug.Log(SceneManager.GetActiveScene().name);
             //Debug.Log("Loading scene " + sceneName + "");
             yield return null;
         }
+
+        CameraController.instance.SetXLock(false); 
+        CameraController.instance.SetZLock(false);
         //Debug.Log("Loading done!");
         
         // Do anything after proper scene has been loaded
@@ -52,6 +57,7 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+
         yield return null;
     }
 }

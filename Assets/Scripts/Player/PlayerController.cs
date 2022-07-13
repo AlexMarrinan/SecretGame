@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum PlayerState {
+     //Idle,
+     Walking,
+     Attacking,
+}
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
@@ -12,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private float sprintSpeed = 24;
     private bool sprinting = false;
     private bool frozen = false;
+    private PlayerState playerState;
+    //private string currentState;
     void Awake(){
         if (instance == null){
             instance = this;
@@ -27,6 +35,7 @@ public class PlayerController : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        playerState = PlayerState.Walking;
         //startRotation = sprite.transform.rotation;
     }
 
@@ -42,6 +51,13 @@ public class PlayerController : MonoBehaviour
     public void GetPlayerInput(){
         if (frozen) {
             return;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && playerState != PlayerState.Attacking){
+            StartCoroutine(Attack());
+        }
+        if (Input.GetKeyUp(KeyCode.Space)){
+            StopCoroutine(Attack());
+            animator.SetBool("attacking", false);
         }
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             sprinting = true;
@@ -72,6 +88,15 @@ public class PlayerController : MonoBehaviour
         UpdateAnimationsAndMove();
     }
 
+    private IEnumerator Attack() {
+        animator.SetBool("attacking", true);
+        playerState = PlayerState.Attacking;
+        yield return null;
+        animator.SetBool("attacking", false);
+        yield return new WaitForSeconds(0.33f);
+        playerState = PlayerState.Walking;
+    
+    }
     public void UpdateAnimationsAndMove(){
         Vector2 input = Vector2.zero; 
         input.x = Input.GetAxis("Horizontal");

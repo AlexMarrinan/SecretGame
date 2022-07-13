@@ -96,6 +96,7 @@ public class CameraController : MonoBehaviour
         if (!lockX){
             orbit.x = player.transform.position.x;
         }
+        orbit.y = player.transform.position.y;
         if (!lockZ){
             orbit.z = player.transform.position.z;
         }
