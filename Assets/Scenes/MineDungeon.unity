@@ -2198,7 +2198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &159778643
 Transform:
   m_ObjectHideFlags: 0
@@ -5812,6 +5812,7 @@ GameObject:
   - component: {fileID: 373883446}
   - component: {fileID: 373883448}
   - component: {fileID: 373883447}
+  - component: {fileID: 373883450}
   - component: {fileID: 373883449}
   m_Layer: 0
   m_Name: 2F Right Stairs
@@ -5875,6 +5876,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 159778642}
   show: 0
+--- !u!114 &373883450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373883445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3e33e4a0ff1ce46a17b02d9501bd0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 270510144}
+  show: 1
 --- !u!1 &387477048
 GameObject:
   m_ObjectHideFlags: 0
@@ -19967,7 +19982,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh37746
+  m_Name: pb_Mesh21192
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -20496,7 +20511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1753142256
 Transform:
   m_ObjectHideFlags: 0

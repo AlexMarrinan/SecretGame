@@ -61,14 +61,11 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             sprinting = true;
-            Debug.Log("Started sprinting");
+            //Debug.Log("Started sprinting");
         }
         if (Input.GetKeyUp(KeyCode.LeftShift)){
             sprinting = false;
-            Debug.Log("Stopped sprinting");
-        }
-        if (Input.GetKeyUp(KeyCode.Space)){
-            Debug.Log("Attacking");
+            //Debug.Log("Stopped sprinting");
         }
         if (Input.GetKeyDown(KeyCode.Alpha1)){
             //Debug.Log("Item 0: " + ItemManager.instance.GetUsedItem(0));
@@ -198,5 +195,8 @@ public class PlayerController : MonoBehaviour
         }
         PlayerStats.instance.TakeDamage(damage);
         damageCooldown = damageCooldownMax;
+    }
+    public void SetPostition(Vector3 newPos){
+        controller.Move(newPos - transform.position);
     }
 }
