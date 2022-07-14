@@ -11,13 +11,15 @@ public enum PlayerState {
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
-    public SpriteRenderer sprite;
-    private Rigidbody rb;
+    private CharacterController controller;
     private Animator animator;
     private float walkSpeed = 12;
     private float sprintSpeed = 24;
     private bool sprinting = false;
     private bool frozen = false;
+    private float damageCooldownMax = 3;
+    private float damageCooldown = 0;
+    private Vector3 gravity = new Vector3(0, -25f, 0);
     private PlayerState playerState;
     //private string currentState;
     void Awake(){
@@ -32,9 +34,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sprite = GetComponent<SpriteRenderer>();
-        rb = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        controller = GetComponentInChildren<CharacterController>();
         playerState = PlayerState.Walking;
         //startRotation = sprite.transform.rotation;
     }
@@ -43,10 +44,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         GetPlayerInput();
+        UpdatePlayerState();
         //sprite.transform.rotation = startRotation;
     }
-    private void OnCollisionEnter(Collision other) {
-        //Debug.Log(other.collider.name);
+    private void OnControllerColliderHit(ControllerColliderHit hit) {
+        if (hit.collider.tag == "Enemy"){
+            TakeDamage(1);
+        }
     }
     public void GetPlayerInput(){
         if (frozen) {
@@ -54,10 +58,6 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && playerState != PlayerState.Attacking){
             StartCoroutine(Attack());
-        }
-        if (Input.GetKeyUp(KeyCode.Space)){
-            StopCoroutine(Attack());
-            animator.SetBool("attacking", false);
         }
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             sprinting = true;
@@ -86,6 +86,13 @@ public class PlayerController : MonoBehaviour
             ItemManager.instance.ShowMenu();
         }
         UpdateAnimationsAndMove();
+    }
+    private void UpdatePlayerState(){
+        damageCooldown -= Time.deltaTime;
+        if (damageCooldown < 0){
+            damageCooldown = 0;
+        }
+        controller.Move(gravity*Time.deltaTime);
     }
 
     private IEnumerator Attack() {
@@ -124,7 +131,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void MovePlayer(Vector3 direction){
-        rb.MovePosition(rb.position + direction);
+        controller.Move(direction);
     }
     public void RotateRight(){
         float x = animator.GetFloat("MoveX");
@@ -184,5 +191,12 @@ public class PlayerController : MonoBehaviour
      public void UnfreezeControl(){
         animator.StopPlayback();
         frozen = false;
+    }
+    public void TakeDamage(int damage){
+        if (damageCooldown > 0){
+            return;
+        }
+        PlayerStats.instance.TakeDamage(damage);
+        damageCooldown = damageCooldownMax;
     }
 }

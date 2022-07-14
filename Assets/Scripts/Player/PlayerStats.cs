@@ -24,4 +24,7 @@ public class PlayerStats : MonoBehaviour
         maxHP += amount;
         currentHP += amount;
     }
+    public void TakeDamage(int damage){
+        currentHP -= damage;
+    }
 }
