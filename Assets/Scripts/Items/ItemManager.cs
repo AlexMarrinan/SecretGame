@@ -12,7 +12,8 @@ public class ItemManager : MonoBehaviour
     public ItemDatabase itemDatabase;
     public ItemMenu itemMenu;
     
-    public Item[] usedItems = new Item[2];
+    //Items that are currently used
+    public Item[] usedItems = new Item[3];
     public List<ItemHudIcon> hudIcons = new List<ItemHudIcon>();
     void Awake(){
         //Debug.Log("awake");
@@ -28,6 +29,7 @@ public class ItemManager : MonoBehaviour
     void Start(){
 
     }
+    //Initalizes the hud view based on the items defined in usedItems
     void InitializeItems(){
         itemDatabase = GetComponent<ItemDatabase>();
         for (int i = 0; i < usedItems.Length; i++){

@@ -14,7 +14,9 @@ public class BombItem : Item
         cooldown = cooldownMax;
 
         Debug.Log("Threw bomb!");
-        Instantiate(ItemManager.instance.bombPrefab, PlayerController.instance.projectilePos, Quaternion.identity);
+        Instantiate(ItemManager.instance.bombPrefab, 
+            PlayerController.instance.projectilePos, 
+            Quaternion.identity);
         return;
     }
     public override string GetString(){

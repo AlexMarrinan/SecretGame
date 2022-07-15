@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
     private CharacterController controller;
     private Animator animator;
-    public GameObject swordAttack;
     private float walkSpeed = 12;
     private float sprintSpeed = 24;
     private bool sprinting = false;
@@ -22,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private float damageCooldown = 0;
     public Vector3 projectilePos = new Vector3(0, 0, -1);
     private Vector3 gravity = new Vector3(0, -25f, 0);
+    private Vector2 input;
     private PlayerState playerState;
     //private string currentState;
     void Awake(){
@@ -39,7 +39,8 @@ public class PlayerController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         controller = GetComponentInChildren<CharacterController>();
         playerState = PlayerState.Walking;
-        swordAttack.SetActive(false);
+        animator.SetFloat("MoveX", 0);
+        animator.SetFloat("MoveY", 1);
         //startRotation = sprite.transform.rotation;
     }
 
@@ -63,12 +64,10 @@ public class PlayerController : MonoBehaviour
             //StartCoroutine(Attack());
             animator.SetBool("attacking", true);
             playerState = PlayerState.Attacking;
-            swordAttack.SetActive(true);
         }
         if (Input.GetKeyUp(KeyCode.Space)){
             animator.SetBool("attacking", false);
             playerState = PlayerState.Walking;
-            swordAttack.SetActive(false);
         }
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             sprinting = true;
@@ -114,10 +113,9 @@ public class PlayerController : MonoBehaviour
         playerState = PlayerState.Walking;
     }*/
     public void UpdateAnimationsAndMove(){
-        Vector2 input = Vector2.zero; 
+        input = Vector2.zero; 
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Vertical");
-        input = Vector2.ClampMagnitude(input, 1);
         
         if (input != Vector2.zero){
             
@@ -130,12 +128,15 @@ public class PlayerController : MonoBehaviour
             forward.Normalize();
             right.Normalize();
             
+            var normal = input.normalized;
+
+            animator.SetFloat("MoveX", normal.x);
+            animator.SetFloat("MoveY", normal.y);
+            animator.SetBool("Walking", true);
+
+            input = Vector2.ClampMagnitude(input, 1);
 
             MovePlayer((forward*input.y + right*input.x)*Time.deltaTime*(sprinting ? sprintSpeed : walkSpeed));
-
-            animator.SetFloat("MoveX", input.x);
-            animator.SetFloat("MoveY", input.y);
-            animator.SetBool("Walking", true);
 
             if (input.x < 0){
                 input.x--;
@@ -144,8 +145,13 @@ public class PlayerController : MonoBehaviour
                 input.y--;
             }
             projectilePos = new Vector3 (Mathf.Ceil(input.x), 0, Mathf.Ceil(input.y)) + transform.position;
-            swordAttack.transform.position = projectilePos;
         }else{
+/*             if (animator.GetFloat("MoveX") != 0f){
+                animator.SetFloat("MoveX", 1f);
+            }
+            if (animator.GetFloat("MoveY") != 0f){
+                animator.SetFloat("MoveY", 1f);
+            } */
             animator.SetBool("Walking", false);
         }
     }

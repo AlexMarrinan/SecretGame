@@ -54,5 +54,8 @@ public class ItemMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2)){
             icons[selectionIndex].SetItem(1);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            icons[selectionIndex].SetItem(2);
+        }
     }
 }
