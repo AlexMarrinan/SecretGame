@@ -10,5 +10,16 @@ public enum EnemyState {
 }
 public class Enemy : MonoBehaviour
 {
+     public int health;
 
+     private void OnCollisionEnter(Collision other) {
+
+     }
+
+     public void TakeDamage(int damage){
+          health -= damage;
+          if (health <= 0){
+               gameObject.SetActive(false);
+          }
+     }
 }

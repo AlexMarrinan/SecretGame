@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 public enum PlayerState {
      //Idle,
@@ -13,12 +13,14 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
     private CharacterController controller;
     private Animator animator;
+    public GameObject swordAttack;
     private float walkSpeed = 12;
     private float sprintSpeed = 24;
     private bool sprinting = false;
     private bool frozen = false;
     private float damageCooldownMax = 3;
     private float damageCooldown = 0;
+    public Vector3 projectilePos = new Vector3(0, 0, -1);
     private Vector3 gravity = new Vector3(0, -25f, 0);
     private PlayerState playerState;
     //private string currentState;
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         controller = GetComponentInChildren<CharacterController>();
         playerState = PlayerState.Walking;
+        swordAttack.SetActive(false);
         //startRotation = sprite.transform.rotation;
     }
 
@@ -57,7 +60,15 @@ public class PlayerController : MonoBehaviour
             return;
         }
         if (Input.GetKeyDown(KeyCode.Space) && playerState != PlayerState.Attacking){
-            StartCoroutine(Attack());
+            //StartCoroutine(Attack());
+            animator.SetBool("attacking", true);
+            playerState = PlayerState.Attacking;
+            swordAttack.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.Space)){
+            animator.SetBool("attacking", false);
+            playerState = PlayerState.Walking;
+            swordAttack.SetActive(false);
         }
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             sprinting = true;
@@ -92,6 +103,8 @@ public class PlayerController : MonoBehaviour
         controller.Move(gravity*Time.deltaTime);
     }
 
+
+    /*
     private IEnumerator Attack() {
         animator.SetBool("attacking", true);
         playerState = PlayerState.Attacking;
@@ -99,8 +112,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("attacking", false);
         yield return new WaitForSeconds(0.33f);
         playerState = PlayerState.Walking;
-    
-    }
+    }*/
     public void UpdateAnimationsAndMove(){
         Vector2 input = Vector2.zero; 
         input.x = Input.GetAxis("Horizontal");
@@ -116,13 +128,23 @@ public class PlayerController : MonoBehaviour
             right.y = 0;
 
             forward.Normalize();
-            forward.Normalize();
+            right.Normalize();
+            
 
             MovePlayer((forward*input.y + right*input.x)*Time.deltaTime*(sprinting ? sprintSpeed : walkSpeed));
 
             animator.SetFloat("MoveX", input.x);
             animator.SetFloat("MoveY", input.y);
             animator.SetBool("Walking", true);
+
+            if (input.x < 0){
+                input.x--;
+            }
+            if (input.y < 0){
+                input.y--;
+            }
+            projectilePos = new Vector3 (Mathf.Ceil(input.x), 0, Mathf.Ceil(input.y)) + transform.position;
+            swordAttack.transform.position = projectilePos;
         }else{
             animator.SetBool("Walking", false);
         }
