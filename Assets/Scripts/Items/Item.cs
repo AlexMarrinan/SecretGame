@@ -12,6 +12,7 @@ public enum ItemType{
     Potion,
     Dash,
     Wall,
+    TopDown,
 }
 
 public abstract class Item: MonoBehaviour

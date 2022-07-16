@@ -99,7 +99,9 @@ public class PlayerController : MonoBehaviour
         if (damageCooldown < 0){
             damageCooldown = 0;
         }
-        controller.Move(gravity*Time.deltaTime);
+        if (!CameraController.instance.isTopDown){
+            controller.Move(gravity*Time.deltaTime);
+        }
     }
 
 
@@ -120,6 +122,10 @@ public class PlayerController : MonoBehaviour
         if (input != Vector2.zero){
             
             Vector3 forward = CameraController.instance.transform.forward;
+            Debug.Log(forward);
+            if (CameraController.instance.isTopDown){
+                forward = new Vector3(0, -1, 1);
+            }
             Vector3 right = CameraController.instance.transform.right;
             
             forward.y = 0;

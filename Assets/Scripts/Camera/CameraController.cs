@@ -6,7 +6,7 @@ public enum CameracDirection{
     Behind = 0,
     Left = 1,
     Infront = 2,
-    Right = 3
+    Right = 3,
 }
 
 [RequireComponent(typeof(Camera))]
@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour
     }
     const int CAMERADIRECTION_MAX = 3;
     const int CAMERA_DISTANCE = 20;
+    const float ROTATION_SPEED = 8f;
     public Camera c;
     public CameracDirection cd;
     public Transform player;
@@ -31,6 +32,7 @@ public class CameraController : MonoBehaviour
     private Vector3 cameraOffset;
     private bool lockX;
     private bool lockZ;
+    public bool isTopDown;
 
     // Start is called before the first frame update
     void Start(){
@@ -38,18 +40,18 @@ public class CameraController : MonoBehaviour
         cd = CameracDirection.Infront;
         cameraOffset = new Vector3(0, CAMERA_DISTANCE, -CAMERA_DISTANCE);
         orbit = player.transform.position;
+        isTopDown = false;
     }
 
     // Update is called once per frame
     void Update(){
         if (Input.anyKey){
-            
             //TODO: make not horrible !!!
             //Rotate camera left
             if (Input.GetKeyDown(KeyCode.Q)){
-                c.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
+                //c.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
                 SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
-               foreach (SpriteRenderer s in sprites){
+                foreach (SpriteRenderer s in sprites){
                     if (s.tag != "Player"){
                         s.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
                     }
@@ -61,7 +63,7 @@ public class CameraController : MonoBehaviour
             }
             //Rotate Camera right
             if (Input.GetKeyDown(KeyCode.E)){
-                c.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
+                //c.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
                 SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
                 foreach (SpriteRenderer s in sprites){
                     if (s.tag != "Player"){
@@ -78,20 +80,28 @@ public class CameraController : MonoBehaviour
             }else if (cd < 0){
                 cd = (CameracDirection)CAMERADIRECTION_MAX;
             }
-            switch (cd){
-                case CameracDirection.Behind: 
-                    cameraOffset = new Vector3(0, CAMERA_DISTANCE, CAMERA_DISTANCE);
-                    break;
-                case CameracDirection.Left: 
-                    cameraOffset = new Vector3(CAMERA_DISTANCE, CAMERA_DISTANCE, 0);
-                    break;
-                case CameracDirection.Right: 
-                    cameraOffset = new Vector3(-CAMERA_DISTANCE, CAMERA_DISTANCE, 0);
-                    break;
-                case CameracDirection.Infront: 
-                    cameraOffset = new Vector3(0, CAMERA_DISTANCE, -CAMERA_DISTANCE);
-                    break;
-            }
+            Debug.Log(cd);
+        }
+        switch (cd){
+            case CameracDirection.Behind: 
+                cameraOffset = new Vector3(0, CAMERA_DISTANCE, CAMERA_DISTANCE);
+                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, 180, 0), ROTATION_SPEED *  Time.deltaTime);
+                break;
+            case CameracDirection.Left: 
+                cameraOffset = new Vector3(CAMERA_DISTANCE, CAMERA_DISTANCE, 0);
+                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, -90, 0), ROTATION_SPEED *  Time.deltaTime);
+                break;
+            case CameracDirection.Right: 
+                cameraOffset = new Vector3(-CAMERA_DISTANCE, CAMERA_DISTANCE, 0);
+                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, 90, 0), ROTATION_SPEED *  Time.deltaTime);
+                break;
+            case CameracDirection.Infront: 
+                cameraOffset = new Vector3(0, CAMERA_DISTANCE, -CAMERA_DISTANCE);
+                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, 0, 0), ROTATION_SPEED *  Time.deltaTime);
+                break;
+        }
+        if (isTopDown){
+            cameraOffset = new Vector3(0, CAMERA_DISTANCE, 0);
         }
         if (!lockX){
             orbit.x = player.transform.position.x;
@@ -101,7 +111,7 @@ public class CameraController : MonoBehaviour
             orbit.z = player.transform.position.z;
         }
         
-        transform.position = orbit + cameraOffset;
+        transform.position = Vector3.Lerp(transform.position, orbit + cameraOffset, ROTATION_SPEED * Time.deltaTime);
     }
     public void SetXLock(bool newLock){
         lockX = newLock;
