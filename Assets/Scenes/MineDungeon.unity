@@ -13713,7 +13713,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1300
+  m_Name: pb_Mesh-14834
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -17394,7 +17394,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1809502586346413094, guid: 0632b71ce8a348849af0d2306fa87716, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0632b71ce8a348849af0d2306fa87716, type: 3}
 --- !u!1 &1505421790
 GameObject:
