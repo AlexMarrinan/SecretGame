@@ -82,27 +82,47 @@ public class CameraController : MonoBehaviour
             }
             Debug.Log(cd);
         }
-        switch (cd){
-            case CameracDirection.Behind: 
-                cameraOffset = new Vector3(0, CAMERA_DISTANCE, CAMERA_DISTANCE);
-                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, 180, 0), ROTATION_SPEED *  Time.deltaTime);
-                break;
-            case CameracDirection.Left: 
-                cameraOffset = new Vector3(CAMERA_DISTANCE, CAMERA_DISTANCE, 0);
-                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, -90, 0), ROTATION_SPEED *  Time.deltaTime);
-                break;
-            case CameracDirection.Right: 
-                cameraOffset = new Vector3(-CAMERA_DISTANCE, CAMERA_DISTANCE, 0);
-                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, 90, 0), ROTATION_SPEED *  Time.deltaTime);
-                break;
-            case CameracDirection.Infront: 
-                cameraOffset = new Vector3(0, CAMERA_DISTANCE, -CAMERA_DISTANCE);
-                transform.rotation =  Quaternion.Lerp(transform.rotation, Quaternion.Euler(45, 0, 0), ROTATION_SPEED *  Time.deltaTime);
-                break;
-        }
         if (isTopDown){
-            cameraOffset = new Vector3(0, CAMERA_DISTANCE, 0);
+            switch (cd){
+                case CameracDirection.Behind: 
+                    SetCameraPosition(0, 0, 1);
+                    SetCameraRotation(90, 180, 0);
+                    break;
+                case CameracDirection.Left: 
+                    SetCameraPosition(1, 0, 0);
+                    SetCameraRotation(90, -90, 0);
+                    break;
+                case CameracDirection.Right: 
+                    SetCameraPosition(-1, 0, 0);
+                    SetCameraRotation(90, 90, 0);
+                    break;
+                case CameracDirection.Infront: 
+                    SetCameraPosition(0, 0, -1);
+                    SetCameraRotation(90, 0, 0);
+                    break;
+            }
+            SetCameraPosition(0, 1, 0);
+        }else{
+            switch (cd){
+                case CameracDirection.Behind: 
+                    SetCameraPosition(0, 1, 1);
+                    SetCameraRotation(45, 180, 0);
+                    break;
+                case CameracDirection.Left: 
+                    SetCameraPosition(1, 1, 0);
+                    SetCameraRotation(45, -90, 0);
+                    break;
+                case CameracDirection.Right: 
+                    SetCameraPosition(-1, 1, 0);
+                    SetCameraRotation(45, 90, 0);
+                    break;
+                case CameracDirection.Infront: 
+                    SetCameraPosition(0, 1, -1);
+                    SetCameraRotation(45, 0, 0);
+                    break;
+            }
         }
+
         if (!lockX){
             orbit.x = player.transform.position.x;
         }
@@ -118,5 +138,13 @@ public class CameraController : MonoBehaviour
     }
     public void SetZLock(bool newLock){
         lockZ = newLock;
+    }
+    private void SetCameraPosition(float x, float y, float z){
+        cameraOffset = new Vector3(x,y,z)*CAMERA_DISTANCE;
+    }
+    private void SetCameraRotation(float x, float y, float z){
+        transform.rotation =  Quaternion.Lerp(transform.rotation, 
+                                            Quaternion.Euler(x, y, z),
+                                            ROTATION_SPEED *  Time.deltaTime);
     }
 }
