@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
             }else if (cd < 0){
                 cd = (CameracDirection)CAMERADIRECTION_MAX;
             }
-            Debug.Log(cd);
+            //Debug.Log(cd);
         }
         if (isTopDown){
             //TODO: MAKE PLAYER MOVMENT WORK WHEN TOPDOWN !!!
@@ -144,7 +144,7 @@ public class CameraController : MonoBehaviour
     private void SetSpriteRotations(float y){
         SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
         foreach (SpriteRenderer s in sprites){
-            if (s.tag != "Player"){
+            if (s.tag != "Player" && s.tag != "NonRotate"){
                 SetTransformRotation(s.transform, 60, y, 0);
             }
         }

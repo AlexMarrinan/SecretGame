@@ -1366,6 +1366,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c400ab125016634e968afbe610c5d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ROTATION_SPEED: 15
+  TRAVEL_SPEED: 15
   c: {fileID: 1809502586520074392}
   cd: 0
   player: {fileID: 1809502586362224400}
@@ -1660,7 +1662,7 @@ GameObject:
   - component: {fileID: 692863303707087843}
   - component: {fileID: 6941651543071324337}
   m_Layer: 5
-  m_Name: BombImage
+  m_Name: BowImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1833,7 +1835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5954013568014106935
 Transform:
   m_ObjectHideFlags: 0
@@ -3178,6 +3180,7 @@ MonoBehaviour:
   emptyItem: {fileID: 7411204430153797415}
   bombItem: {fileID: 6216450791921410391}
   torchItem: {fileID: 3568855437954244640}
+  bowItem: {fileID: 0}
   topDownItem: {fileID: 5709513109796268621}
 --- !u!1 &8514185469329182740
 GameObject:

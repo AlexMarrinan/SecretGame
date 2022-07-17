@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         if (input != Vector2.zero){
             
             Vector3 forward = CameraController.instance.transform.forward;
-            Debug.Log(forward);
+            //Debug.Log(forward);
             if (CameraController.instance.isTopDown){
                 forward = new Vector3(0, -1, 1);
             }
