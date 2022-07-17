@@ -24,7 +24,8 @@ public class CameraController : MonoBehaviour
     }
     const int CAMERADIRECTION_MAX = 3;
     const int CAMERA_DISTANCE = 20;
-    const float ROTATION_SPEED = 8f;
+    public float ROTATION_SPEED;
+    public float TRAVEL_SPEED;
     public Camera c;
     public CameracDirection cd;
     public Transform player;
@@ -50,13 +51,6 @@ public class CameraController : MonoBehaviour
             //Rotate camera left
             if (Input.GetKeyDown(KeyCode.Q)){
                 //c.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
-                SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
-                foreach (SpriteRenderer s in sprites){
-                    if (s.tag != "Player"){
-                        s.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
-                    }
-                }
-                player.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
                 PlayerController.instance.RotateLeft();
                 //PlayerController.instance.startRotation = player.transform.rotation;
                 cd++;
@@ -64,13 +58,6 @@ public class CameraController : MonoBehaviour
             //Rotate Camera right
             if (Input.GetKeyDown(KeyCode.E)){
                 //c.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
-                SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
-                foreach (SpriteRenderer s in sprites){
-                    if (s.tag != "Player"){
-                        s.transform.Rotate(0f, -90.0f, 0.0f, Space.World);
-                    }
-                }
-                player.transform.Rotate(0f, -90.0f, 0.0f, Space.World);
                 PlayerController.instance.RotateRight();
                 //PlayerController.instance.startRotation = player.transform.rotation;
                 cd--;
@@ -83,22 +70,27 @@ public class CameraController : MonoBehaviour
             Debug.Log(cd);
         }
         if (isTopDown){
+            //TODO: MAKE PLAYER MOVMENT WORK WHEN TOPDOWN !!!
             switch (cd){
                 case CameracDirection.Behind: 
                     SetCameraPosition(0, 0, 1);
                     SetCameraRotation(90, 180, 0);
+                    SetSpriteRotations(180);
                     break;
                 case CameracDirection.Left: 
                     SetCameraPosition(1, 0, 0);
                     SetCameraRotation(90, -90, 0);
+                    SetSpriteRotations(-90);
                     break;
                 case CameracDirection.Right: 
                     SetCameraPosition(-1, 0, 0);
                     SetCameraRotation(90, 90, 0);
+                    SetSpriteRotations(90);
                     break;
                 case CameracDirection.Infront: 
                     SetCameraPosition(0, 0, -1);
                     SetCameraRotation(90, 0, 0);
+                    SetSpriteRotations(0);
                     break;
             }
             SetCameraPosition(0, 1, 0);
@@ -107,18 +99,22 @@ public class CameraController : MonoBehaviour
                 case CameracDirection.Behind: 
                     SetCameraPosition(0, 1, 1);
                     SetCameraRotation(45, 180, 0);
+                    SetSpriteRotations(180);
                     break;
                 case CameracDirection.Left: 
                     SetCameraPosition(1, 1, 0);
                     SetCameraRotation(45, -90, 0);
+                    SetSpriteRotations(-90);
                     break;
                 case CameracDirection.Right: 
                     SetCameraPosition(-1, 1, 0);
                     SetCameraRotation(45, 90, 0);
+                    SetSpriteRotations(90);
                     break;
                 case CameracDirection.Infront: 
                     SetCameraPosition(0, 1, -1);
                     SetCameraRotation(45, 0, 0);
+                    SetSpriteRotations(0);
                     break;
             }
         }
@@ -131,7 +127,7 @@ public class CameraController : MonoBehaviour
             orbit.z = player.transform.position.z;
         }
         
-        transform.position = Vector3.Lerp(transform.position, orbit + cameraOffset, ROTATION_SPEED * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, orbit + cameraOffset, TRAVEL_SPEED * Time.deltaTime);
     }
     public void SetXLock(bool newLock){
         lockX = newLock;
@@ -143,8 +139,21 @@ public class CameraController : MonoBehaviour
         cameraOffset = new Vector3(x,y,z)*CAMERA_DISTANCE;
     }
     private void SetCameraRotation(float x, float y, float z){
-        transform.rotation =  Quaternion.Lerp(transform.rotation, 
-                                            Quaternion.Euler(x, y, z),
-                                            ROTATION_SPEED *  Time.deltaTime);
+        SetTransformRotation(transform, x, y, z);
     }
+    private void SetSpriteRotations(float y){
+        SpriteRenderer[] sprites = FindObjectsOfType<SpriteRenderer>();
+        foreach (SpriteRenderer s in sprites){
+            if (s.tag != "Player"){
+                SetTransformRotation(s.transform, 60, y, 0);
+            }
+        }
+        SetTransformRotation(player, 0, y, 0);
+    }
+
+     private void SetTransformRotation(Transform trans, float x, float y, float z){
+        trans.rotation = Quaternion.Lerp(trans.rotation,
+                                Quaternion.Euler(x, y, z),
+                                ROTATION_SPEED *  Time.deltaTime);
+     }
 }
