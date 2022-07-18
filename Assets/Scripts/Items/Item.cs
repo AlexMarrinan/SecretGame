@@ -13,6 +13,7 @@ public enum ItemType{
     Dash,
     Wall,
     TopDown,
+    Hook,
 }
 
 public abstract class Item: MonoBehaviour

@@ -6,7 +6,6 @@ using System.Linq;
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager instance;
-    public GameObject bombPrefab;
     public GameObject arrowPrefab;
     [HideInInspector]
     public ItemDatabase itemDatabase;

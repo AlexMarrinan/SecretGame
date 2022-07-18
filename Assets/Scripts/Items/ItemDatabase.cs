@@ -13,4 +13,10 @@ public class ItemDatabase : MonoBehaviour
     public TorchItem torchItem;
     public BowItem bowItem;
     public TopDownItem topDownItem;
+    public HookItem hookItem;
+    
+    //Prefabs
+    public GameObject bombPrefab;
+    public GameObject hookPrefab;
+
 }

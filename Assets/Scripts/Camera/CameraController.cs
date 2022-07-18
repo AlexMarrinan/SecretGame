@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
         }
     }
     const int CAMERADIRECTION_MAX = 3;
-    const int CAMERA_DISTANCE = 20;
+    public int CAMERA_DISTANCE = 20;
     public float ROTATION_SPEED;
     public float TRAVEL_SPEED;
     public Camera c;

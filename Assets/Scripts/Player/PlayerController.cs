@@ -19,9 +19,10 @@ public class PlayerController : MonoBehaviour
     private bool frozen = false;
     private float damageCooldownMax = 3;
     private float damageCooldown = 0;
-    public Vector3 projectilePos = new Vector3(0, 0, -1);
+    public Vector3 projectilePos;
     private Vector3 gravity = new Vector3(0, -25f, 0);
     private Vector2 input;
+    public bool inHook = false;
     private PlayerState playerState;
     //private string currentState;
     void Awake(){
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
         playerState = PlayerState.Walking;
         animator.SetFloat("MoveX", 0);
         animator.SetFloat("MoveY", 1);
+        projectilePos = this.transform.position - new Vector3(0, 0, -1);
         //startRotation = sprite.transform.rotation;
     }
 
@@ -124,7 +126,7 @@ public class PlayerController : MonoBehaviour
             Vector3 forward = CameraController.instance.transform.forward;
             //Debug.Log(forward);
             if (CameraController.instance.isTopDown){
-                forward = new Vector3(0, -1, 1);
+                //forward = new Vector3(0, -1, 1);
             }
             Vector3 right = CameraController.instance.transform.right;
             
@@ -150,7 +152,7 @@ public class PlayerController : MonoBehaviour
             if (input.y < 0){
                 input.y--;
             }
-            projectilePos = new Vector3 (Mathf.Ceil(input.x), 0, Mathf.Ceil(input.y)) + transform.position;
+            projectilePos = (forward*Mathf.Ceil(input.y) + right*Mathf.Ceil(input.x)) + transform.position;
         }else{
 /*             if (animator.GetFloat("MoveX") != 0f){
                 animator.SetFloat("MoveX", 1f);
@@ -232,5 +234,8 @@ public class PlayerController : MonoBehaviour
     }
     public void SetPostition(Vector3 newPos){
         controller.Move(newPos - transform.position);
+    }
+    public Vector3 ProjectilePosRelative(){
+        return (PlayerController.instance.projectilePos - PlayerController.instance.transform.position);
     }
 }
