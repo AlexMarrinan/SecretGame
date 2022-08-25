@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum CameracDirection{
     Behind = 0,
@@ -24,6 +25,7 @@ public class CameraController : MonoBehaviour
     }
     const int CAMERADIRECTION_MAX = 3;
     public int CAMERA_DISTANCE = 20;
+    public int CAMERA_ANGLE = 45;
     public float ROTATION_SPEED;
     public float TRAVEL_SPEED;
     public Camera c;
@@ -34,6 +36,7 @@ public class CameraController : MonoBehaviour
     private bool lockX;
     private bool lockZ;
     public bool isTopDown;
+    public bool isSideScroll;
 
     // Start is called before the first frame update
     void Start(){
@@ -49,11 +52,13 @@ public class CameraController : MonoBehaviour
         if (Input.anyKey){
             //TODO: make not horrible !!!
             //Rotate camera left
+            bool movedCamera = false;
             if (Input.GetKeyDown(KeyCode.Q)){
                 //c.transform.Rotate(0f, 90.0f, 0.0f, Space.World);
                 PlayerController.instance.RotateLeft();
                 //PlayerController.instance.startRotation = player.transform.rotation;
                 cd++;
+                movedCamera = true;
             }
             //Rotate Camera right
             if (Input.GetKeyDown(KeyCode.E)){
@@ -61,12 +66,18 @@ public class CameraController : MonoBehaviour
                 PlayerController.instance.RotateRight();
                 //PlayerController.instance.startRotation = player.transform.rotation;
                 cd--;
+                movedCamera = true;
+
             }
             if ((int) cd > CAMERADIRECTION_MAX){
                 cd = 0;
             }else if (cd < 0){
                 cd = (CameracDirection)CAMERADIRECTION_MAX;
             }
+            if (movedCamera){
+                FindObjectsOfType<CameraHider>().ToList().ForEach(hider => hider.OnCameraChange(cd));
+            }
+            //Checks every CameraHider too see if it should be visible
             //Debug.Log(cd);
         }
         if (isTopDown){
@@ -98,22 +109,22 @@ public class CameraController : MonoBehaviour
             switch (cd){
                 case CameracDirection.Behind: 
                     SetCameraPosition(0, 1, 1);
-                    SetCameraRotation(45, 180, 0);
+                    SetCameraRotation(CAMERA_ANGLE, 180, 0);
                     SetSpriteRotations(180);
                     break;
                 case CameracDirection.Left: 
                     SetCameraPosition(1, 1, 0);
-                    SetCameraRotation(45, -90, 0);
+                    SetCameraRotation(CAMERA_ANGLE, -90, 0);
                     SetSpriteRotations(-90);
                     break;
                 case CameracDirection.Right: 
                     SetCameraPosition(-1, 1, 0);
-                    SetCameraRotation(45, 90, 0);
+                    SetCameraRotation(CAMERA_ANGLE, 90, 0);
                     SetSpriteRotations(90);
                     break;
                 case CameracDirection.Infront: 
                     SetCameraPosition(0, 1, -1);
-                    SetCameraRotation(45, 0, 0);
+                    SetCameraRotation(CAMERA_ANGLE, 0, 0);
                     SetSpriteRotations(0);
                     break;
             }
