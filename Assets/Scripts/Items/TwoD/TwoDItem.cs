@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TopDownItem : Item
+public class TwoDItem : Item
 {
     public override void UseItem(){
-        Debug.Log("Went Topdown");
-        CameraController.instance.isTopDown = !CameraController.instance.isTopDown;
-        CameraController.instance.is2d = false;
-
+        Debug.Log("Went 2D");
+        CameraController.instance.is2d = !CameraController.instance.is2d;
+        CameraController.instance.isTopDown = false;
         // if (!CameraController.instance.isTopDown){
         //     CameraController.instance.cd = CameracDirection.Infront;
         //     CameraController.instance.transform.rotation = Quaternion.Euler(45, 0, 0);
@@ -18,6 +17,6 @@ public class TopDownItem : Item
         // }
     }
     public override string GetString(){
-        return "TopDown";
+        return "TwoD";
     }
 }

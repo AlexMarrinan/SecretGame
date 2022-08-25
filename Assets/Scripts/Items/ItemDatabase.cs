@@ -14,6 +14,7 @@ public class ItemDatabase : MonoBehaviour
     public BowItem bowItem;
     public TopDownItem topDownItem;
     public HookItem hookItem;
+    public TwoDItem twoDItem;
     
     //Prefabs
     public GameObject bombPrefab;

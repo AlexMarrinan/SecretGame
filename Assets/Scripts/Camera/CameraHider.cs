@@ -19,6 +19,8 @@ public class CameraHider: MonoBehaviour{
         fadeOut = false;
     }
     public void Update(){
+        
+        //If the material is NOT fading out and its alpha is below 1, increase alpha
         if (!fadeOut && mesh.material.color.a < 1){
             for (int i = 0; i < mesh.materials.Length; i++){
                 Color c = mesh.materials[i].color;
@@ -27,6 +29,7 @@ public class CameraHider: MonoBehaviour{
                 c = new Color(c.r, c.g, c.b, fadeAmount);
                 mesh.materials[i].color = c;
             }
+        //If the material is fading out and its alpha is above 0, decrease alpha
         }else if (fadeOut && mesh.material.color.a > 0){
            for (int i = 0; i < mesh.materials.Length; i++){
                 Color c = mesh.materials[i].color;

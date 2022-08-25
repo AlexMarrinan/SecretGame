@@ -14,6 +14,7 @@ public enum ItemType{
     Wall,
     TopDown,
     Hook,
+    TwoD,
 }
 
 public abstract class Item: MonoBehaviour

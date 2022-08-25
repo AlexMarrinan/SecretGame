@@ -36,6 +36,7 @@ public class CameraController : MonoBehaviour
     private bool lockX;
     private bool lockZ;
     public bool isTopDown;
+    public bool is2d;
     public bool isSideScroll;
 
     // Start is called before the first frame update
@@ -45,6 +46,7 @@ public class CameraController : MonoBehaviour
         cameraOffset = new Vector3(0, CAMERA_DISTANCE, -CAMERA_DISTANCE);
         orbit = player.transform.position;
         isTopDown = false;
+        is2d = false;
     }
 
     // Update is called once per frame
@@ -105,6 +107,30 @@ public class CameraController : MonoBehaviour
                     break;
             }
             SetCameraPosition(0, 1, 0);
+        } else if (is2d){
+            //TODO: MAKE PLAYER MOVMENT WORK WHEN TOPDOWN !!!
+            switch (cd){
+                case CameracDirection.Behind: 
+                    SetCameraPosition(0, 0.4f, 3);
+                    SetCameraRotation(0, 180, 0);
+                    SetSpriteRotations(180);
+                    break;
+                case CameracDirection.Left: 
+                    SetCameraPosition(3, 0.4f, 0);
+                    SetCameraRotation(0, -90, 0);
+                    SetSpriteRotations(-90);
+                    break;
+                case CameracDirection.Right: 
+                    SetCameraPosition(-3, 0.4f, 0);
+                    SetCameraRotation(0, 90, 0);
+                    SetSpriteRotations(90);
+                    break;
+                case CameracDirection.Infront: 
+                    SetCameraPosition(0, 0.4f, -3);
+                    SetCameraRotation(0, 0, 0);
+                    SetSpriteRotations(0);
+                    break;
+            }
         }else{
             switch (cd){
                 case CameracDirection.Behind: 
