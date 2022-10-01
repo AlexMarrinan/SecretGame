@@ -232,8 +232,15 @@ public class PlayerController : MonoBehaviour
         PlayerStats.instance.TakeDamage(damage);
         damageCooldown = damageCooldownMax;
     }
-    public void SetPostition(Vector3 newPos){
+    //Moves the player to a given position
+    public void MovePosition(Vector3 newPos){
         controller.Move(newPos - transform.position);
+    }
+    //Sets the player to a given position, ignores collisions
+    public void SetPostition(Vector3 newPos){
+        controller.enabled = false;
+        controller.transform.position = new Vector3(newPos.x, newPos.y, newPos.z);
+        controller.enabled = true;
     }
     public Vector3 ProjectilePosRelative(){
         return (PlayerController.instance.projectilePos - PlayerController.instance.transform.position);

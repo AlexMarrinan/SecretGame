@@ -18,7 +18,7 @@ public class HookProjectile : MonoBehaviour
         if (other.collider.tag == "Player"){
             return;
         }
-        PlayerController.instance.SetPostition(this.transform.position);
+        PlayerController.instance.MovePosition(this.transform.position);
         PlayerController.instance.inHook = false;
         Destroy(this.gameObject);
         PlayerController.instance.UnfreezeControl();
